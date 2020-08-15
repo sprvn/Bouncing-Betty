@@ -1,11 +1,13 @@
 import helpers
 import logger
 
-logger.configure(level='warning')
+import database
+import wrappers.amass as amass
+
+logger.configure(level='info')
 log = logger.getLogger(__name__)
 
-log.warning('testar')
-log.debug('testar2')
+amass.scan('test_domain')
 
 #print(helpers.checkVPN())
 

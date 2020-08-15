@@ -2,10 +2,10 @@ import sqlite3
 import os
 import sys
 
-database_directory = 'instance'
+import helpers
+import logger
 
-if not os.path.exists(os.path.join(sys.path[0], database_directory)):
-    os.makedirs(os.path.join(sys.path[0], database_directory))
+log = logger.getLogger(__name__)
 
 def getDBConnection():
     db = sqlite3.connect(
@@ -17,11 +17,13 @@ def getDBConnection():
     return db
 
 def initDB():
+
+    helpers.createDirectory('instance')
     
     answer = input('Type YES to initialize the database: ')
 
     if answer != 'YES':
-        print('Aborting initialization.')
+        log.warning('Aborting initialization')
         return False
 
     db = getDBConnection()
@@ -29,6 +31,3 @@ def initDB():
     with open(os.path.join(sys.path[0], 'schema.sql')) as f:
         db.executescript(f.read())
 
-
-#getDBConnection()
-#initDB()
